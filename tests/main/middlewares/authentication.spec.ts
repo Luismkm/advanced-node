@@ -3,8 +3,8 @@ import { sign } from 'jsonwebtoken';
 
 import { app } from '@/main/config/app';
 import { auth } from '@/main/middlewares';
-import { env } from '@/main/config/env';
 import { ForbiddenError } from '@/application/errors';
+import { env } from '@/main/config/env';
 
 describe('Authentication Middleware', () => {
   it('should return 403 if authorization header was not provided', async () => {

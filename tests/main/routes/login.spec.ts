@@ -3,16 +3,16 @@ import { IBackup } from 'pg-mem';
 import { getConnection } from 'typeorm';
 
 import { app } from '@/main/config/app';
-import { PgUser } from '@/infra/postgres/entities';
-import { makeFakeDb } from '@/tests/infra/postgres/mocks';
 import { UnauthorizedError } from '@/application/errors';
+import { PgUser } from '@/infra/repos/postgres/entities';
+import { makeFakeDb } from '@/tests/infra/repos/postgres/mocks';
 
 describe('Login Routes', () => {
   describe('POST /login/facebook', () => {
     let backup: IBackup;
     const loadUserSpy = jest.fn();
 
-    jest.mock('@/infra/apis/facebook', () => ({
+    jest.mock('@/infra/gateways/facebook-api', () => ({
       FacebookApi: jest.fn().mockReturnValue({
         loadUser: loadUserSpy,
       }),
