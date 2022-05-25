@@ -44,6 +44,7 @@ describe('AwsS3FileStorage', () => {
       putObjectSpy = jest.fn().mockImplementation(() => ({ promise: putObjectPromiseSpy }));
       mocked(S3).mockImplementation(jest.fn().mockImplementation(() => ({ putObject: putObjectSpy })));
     });
+
     it('should call putObject with correct input', async () => {
       await sut.upload({ file, key });
       expect(putObjectSpy).toHaveBeenCalledWith({
@@ -71,6 +72,24 @@ describe('AwsS3FileStorage', () => {
       putObjectPromiseSpy.mockRejectedValueOnce(error);
       const promise = sut.upload({ key, file });
       expect(promise).rejects.toThrow(error);
+    });
+  });
+
+  describe('delete', () => {
+    let deleteObjectPromiseSpy: jest.Mock;
+    let deleteObjectSpy: jest.Mock;
+
+    beforeAll(() => {
+      deleteObjectPromiseSpy = jest.fn();
+      deleteObjectSpy = jest.fn().mockImplementation(() => ({ promise: deleteObjectPromiseSpy }));
+      mocked(S3).mockImplementation(jest.fn().mockImplementation(() => ({ deleteObject: deleteObjectSpy })));
+    });
+
+    it('should call deleteObject with correct input', async () => {
+      await sut.delete({ key });
+      expect(deleteObjectSpy).toHaveBeenCalledWith({ Bucket: bucket, Key: key });
+      expect(deleteObjectSpy).toHaveBeenCalledTimes(1);
+      expect(deleteObjectPromiseSpy).toHaveBeenCalledTimes(1);
     });
   });
 });
