@@ -24,4 +24,12 @@ describe('SavePictureController', () => {
       data: new RequiredFieldError('file'),
     });
   });
+
+  it('should return 400 if file is not provided', async () => {
+    const httpResponse = await sut.handle({ file: null });
+    expect(httpResponse).toEqual({
+      statusCode: 400,
+      data: new RequiredFieldError('file'),
+    });
+  });
 });
