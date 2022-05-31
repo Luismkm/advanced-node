@@ -27,3 +27,18 @@ export class RequiredString extends Required {
     }
   }
 }
+
+export class RequiredBuffer extends Required {
+  constructor(
+    readonly value: Buffer,
+    readonly fieldName?: string,
+  ) {
+    super(value, fieldName);
+  }
+
+  validate(): Error | undefined {
+    if (super.validate() !== undefined || this.value.length === 0) {
+      return new RequiredFieldError(this.fieldName);
+    }
+  }
+}
