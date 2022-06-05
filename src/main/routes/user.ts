@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
-import { makeDeletePictureController } from '@/main/factories/controllers';
 import { adaptExpressRoute } from '@/main/adapters';
+import { makeSavePictureController } from '@/main/factories/controllers';
 import { auth } from '@/main/middlewares';
 
 export default (router: Router): void => {
-  router.delete('/users/picture', auth, adaptExpressRoute(makeDeletePictureController()));
+  router.delete('/users/picture', auth, adaptExpressRoute(makeSavePictureController()));
 };
